@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp mời tốt nghiệp | Hoàng Thu Trang</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                        script: ['Dancing Script', 'cursive'],
+                    },
+                    colors: {
+                        primary: '#1c1c1c',
+                        accent: '#a68a5c',
+                        rosegold: {
+                            DEFAULT: '#C58C85',
+                            light: '#EED9D5',
+                            dark: '#A36B65',
+                            bg: '#FDFBF9'
+                        },
+                        stone: {
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            800: '#292524'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --ink: #1c1c1c;
+            --muted: #68625a;
+            --paper: #faf9f6;
+            --paper-soft: #fffdf8;
+            --accent: #a68a5c;
+            --accent-dark: #7e653f;
+            --line: rgba(166, 138, 92, 0.28);
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(90deg, rgba(166, 138, 92, 0.08) 1px, transparent 1px) 0 0 / 72px 72px,
+                linear-gradient(180deg, #fffaf0 0%, var(--paper) 34%, #f4efe5 100%);
+            color: var(--ink);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2)),
+                url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+            opacity: 0.58;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                linear-gradient(115deg, rgba(255, 255, 255, 0.82) 0 16%, transparent 16% 100%),
+                linear-gradient(245deg, rgba(166, 138, 92, 0.16) 0 12%, transparent 12% 100%);
+        }
+
+        ::selection { background: var(--accent); color: #fff; }
+
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 60;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #d7bc86, var(--accent-dark));
+            box-shadow: 0 0 18px rgba(166, 138, 92, 0.45);
+        }
+
+        /* ================= THIỆP MỞ ĐẦU ================= */
+        #welcome-cover {
+            background-color: #FDFBF9;
+            background-image:
+                radial-gradient(circle at top left, rgba(238, 217, 213, 0.28), transparent 42%),
+                radial-gradient(circle at bottom right, rgba(238, 217, 213, 0.32), transparent 42%);
+        }
+
+        #welcome-cover.is-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #invitation-card.is-opening {
+            transform: scale(0.92) translateY(18px);
+            opacity: 0;
+        }
+
+        /* ================= TIÊU ĐỀ ================= */
+        main > section > .text-center { position: relative; }
+
+        main > section > .text-center::after {
+            content: "";
+            display: block;
+            width: min(180px, 44vw);
+            height: 1px;
+            margin: 24px auto 0;
+            background: linear-gradient(90deg, transparent, rgba(166, 138, 92, 0.72), transparent);
+        }
+
+        /* ================= TIMELINE ================= */
+        .timeline-line::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 24px;
+            width: 2px;
+            background:
+                linear-gradient(var(--line), var(--line)) padding-box,
+                linear-gradient(180deg, transparent, rgba(166, 138, 92, 0.55), transparent) border-box;
+            z-index: 0;
+        }
+
+        .timeline-line > .group { min-height: 78px; }
+
+        .timeline-line > .group > div:first-child,
+        .timeline-line > .group > div:last-child {
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            position: relative;
+        }
+
+        .timeline-line > .group > div:first-child::before,
+        .timeline-line > .group > div:last-child::before {
+            content: "";
+            position: absolute;
+            inset: -16px -18px -16px 62px;
+            z-index: -1;
+            border: 1px solid rgba(166, 138, 92, 0.16);
+            border-radius: 8px;
+            background: rgba(255, 253, 248, 0.72);
+            box-shadow: 0 14px 42px rgba(36, 29, 20, 0.07);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .timeline-line > .group:hover > div:first-child::before,
+        .timeline-line > .group:hover > div:last-child::before {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-line > .group:hover > div:first-child,
+        .timeline-line > .group:hover > div:last-child { transform: translateY(-2px); }
+
+        .timeline-line p { color: var(--muted); line-height: 1.75; }
+
+        .timeline-line [class*="rounded-full"] {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 253, 248, 0.92) !important;
+            border-color: rgba(166, 138, 92, 0.72) !important;
+            box-shadow:
+                0 11px 30px rgba(36, 29, 20, 0.14),
+                inset 0 0 0 6px rgba(166, 138, 92, 0.08);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(28px);
+            filter: blur(8px);
+            transition:
+                opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* ================= FORM XÁC NHẬN & SỔ LƯU BÚT ================= */
+        .elegant-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgba(166, 138, 92, 0.28);
+            background: transparent;
+            border-radius: 0;
+            padding: 12px 0;
+            transition: all 0.3s ease;
+            color: #57534e;
+        }
+
+        .elegant-input:focus {
+            outline: none;
+            border-bottom-color: var(--accent);
+        }
+
+        .elegant-input::placeholder {
+            color: rgba(104, 98, 90, 0.62);
+        }
+
+        .guestbook-card {
+            background: rgba(255, 253, 248, 0.72);
+            border: 1px solid rgba(166, 138, 92, 0.18);
+            box-shadow: 0 18px 48px rgba(36, 29, 20, 0.06);
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .timeline-line > .group > div:first-child::before { inset: -18px 24px -18px -24px; }
+            .timeline-line > .group > div:last-child::before { inset: -18px -24px -18px 24px; }
+        }
+
+        @media (max-width: 767px) {
+            .timeline-line > .group { margin-bottom: 2.75rem; }
+            .timeline-line > .group > div:last-child::before {
+                inset: -14px -10px -14px 70px;
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .fade-in {
+                filter: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased overflow-x-hidden overflow-hidden selection:bg-accent selection:text-white">
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- =========================================================
+         THIỆP MỞ ĐẦU
+    ========================================================== -->
+    <div id="welcome-cover" class="fixed inset-0 z-[100] flex items-center justify-center transition-all duration-1000 ease-in-out">
+        <div id="invitation-card" class="relative w-[90%] max-w-[480px] bg-white rounded-lg shadow-[0_20px_50px_rgba(197,140,133,0.15)] overflow-hidden flex flex-col items-center justify-center py-14 px-6 transition-all duration-700">
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-bl from-rosegold-light to-transparent rounded-full opacity-70 blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-gradient-to-tr from-rosegold-light to-transparent rounded-full opacity-70 blur-2xl pointer-events-none"></div>
+
+            <!-- Vẫn giữ logo trái tim -->
+            <div class="relative z-10 w-12 h-12 bg-rosegold rounded-full flex items-center justify-center mb-6 text-white shadow-md shadow-rosegold/30 text-xl">
+                ♥
+            </div>
+
+            <p class="relative z-10 font-sans text-stone-400 mb-4 text-[11px] tracking-[0.32em] uppercase">Thiệp mời tốt nghiệp</p>
+            <h1 class="relative z-10 font-script text-5xl md:text-6xl text-rosegold-dark mb-2 leading-tight text-center">Hoàng Thu Trang</h1>
+
+            <div class="relative z-10 flex items-center gap-3 my-5">
+                <div class="w-16 h-px bg-rosegold-light"></div>
+                <span class="text-rosegold text-lg leading-none font-serif">~</span>
+                <div class="w-16 h-px bg-rosegold-light"></div>
+            </div>
+
+            <p class="relative z-10 font-serif text-rosegold-dark/80 mb-5 text-sm md:text-[15px] tracking-[0.15em] uppercase">23/05/2026</p>
+            <p class="relative z-10 font-sans text-stone-400 mb-8 text-[11px] tracking-[0.3em] uppercase">Trân trọng kính mời</p>
+
+            <button onclick="openInvitation()" class="relative z-10 bg-rosegold hover:bg-rosegold-dark text-white px-12 py-3 rounded-full font-sans text-[12px] uppercase tracking-widest font-semibold transition-all duration-300 shadow-lg shadow-rosegold/30 hover:shadow-xl hover:-translate-y-1">
+                Mở thiệp
+            </button>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         NỘI DUNG SAU KHI MỞ THIỆP
+    ========================================================== -->
+    <main id="schedule" class="py-16 md:py-20 px-5 max-w-6xl mx-auto">
+        <section class="fade-in">
+            <div class="text-center mb-16">
+                <span class="text-accent uppercase tracking-widest text-sm font-semibold">Lễ tốt nghiệp</span>
+                <h2 class="font-serif text-4xl md:text-5xl mt-3 mb-2">Hoàng Thu Trang</h2>
+                <p class="text-gray-500 font-serif italic text-lg">Thứ Bảy, 23 tháng 5 năm 2026</p>
+            </div>
+
+            <div class="relative timeline-line mb-14 max-w-4xl mx-auto">
+                <!-- Mốc thời gian -->
+                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-12 group">
+                    <div class="md:w-1/2 md:pr-12 md:text-right hidden md:block">
+                        <h3 class="text-xl font-serif font-semibold">15:00</h3>
+                        <p class="text-gray-500 mt-2 text-sm">Mời mọi người đến chụp ảnh với mình nhé.</p>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-accent text-xl shadow-md transition-transform group-hover:scale-110">⏰</div>
+                    <div class="pl-20 md:pl-12 md:w-1/2 pt-2 md:pt-0">
+                        <span class="text-accent font-bold tracking-wider block mb-1">Thời gian</span>
+                        <div class="md:hidden mt-1">
+                            <h3 class="text-xl font-serif font-semibold text-primary">15:00</h3>
+                            <p class="text-gray-500 mt-2 text-sm leading-relaxed">Mời mọi người đến chụp ảnh với mình nhé.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mốc địa điểm -->
+                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-12 group">
+                    <div class="md:w-1/2 md:pr-12 md:text-right hidden md:block">
+                        <span class="text-accent font-bold tracking-wider">Địa điểm</span>
+                    </div>
+                    <div class="absolute left-6 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-accent text-xl shadow-md transition-transform group-hover:scale-110">📍</div>
+                    <div class="pl-20 md:pl-12 md:w-1/2 pt-2 md:pt-0">
+                        <h3 class="text-xl font-serif font-semibold text-primary">Học Viện Ngân Hàng</h3>
+                        <p class="text-gray-500 mt-2 text-sm leading-relaxed hidden md:block">Nơi diễn ra buổi lễ tốt nghiệp.</p>
+                        <div class="md:hidden mt-1">
+                            <span class="text-accent font-bold tracking-wider block mb-1">Địa điểm</span>
+                            <p class="text-gray-500 text-sm leading-relaxed">Nơi diễn ra buổi lễ tốt nghiệp.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-[1.15fr_0.85fr] gap-10 items-center fade-in">
+                <div class="relative bg-white/75 backdrop-blur-sm border border-[rgba(166,138,92,0.22)] rounded-[2rem] p-8 md:p-10 shadow-[0_18px_48px_rgba(36,29,20,0.08)] overflow-hidden">
+                    <div class="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-[rgba(166,138,92,0.08)] blur-2xl"></div>
+                    <span class="font-script text-accent text-3xl">Lời cảm ơn</span>
+                    <p class="mt-5 font-serif text-xl md:text-2xl leading-relaxed text-primary">
+                        “Xin chân thành cảm ơn gia đình, thầy cô và bạn bè đã luôn yêu thương, đồng hành và tiếp thêm động lực cho mình trên chặng đường học tập. Sự hiện diện và tình cảm của mọi người là món quà quý giá nhất trong ngày đặc biệt này.”
+                    </p>
+                    <p class="mt-6 text-sm text-gray-500 tracking-wide">Trân trọng và biết ơn vì tất cả những yêu thương đã nhận được.</p>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <!-- Đặt file ảnh Untitled.jpg cùng thư mục với index.html -->
+                    <img src="Untitled.jpg" alt="Ảnh tốt nghiệp của Hoàng Thu Trang" class="w-full max-w-[420px] aspect-[4/5] object-cover rounded-[1.35rem] shadow-[0_18px_48px_rgba(36,29,20,0.10)]">
+                </div>
+            </div>
+        </section>
+
+        <!-- XÁC NHẬN THAM DỰ & SỔ LƯU BÚT -->
+        <section class="fade-in mt-24 md:mt-32 pb-10">
+            <div class="grid md:grid-cols-2 gap-16 md:gap-20 items-start">
+                <!-- XÁC NHẬN THAM DỰ -->
+                <div class="guestbook-card rounded-[2rem] p-8 md:p-10">
+                    <h2 class="font-script text-4xl md:text-5xl text-accent mb-4">Xác Nhận Tham Dự</h2>
+                    <p class="font-sans text-[13px] text-gray-500 leading-relaxed mb-10">
+                        Sự hiện diện của bạn là niềm vui lớn trong ngày tốt nghiệp của Trang.
+                    </p>
+
+                    <form id="rsvp-form" class="space-y-8 text-left">
+                        <input type="text" id="rsvp-name" placeholder="Tên của bạn" class="elegant-input text-[15px]">
+
+                        <div class="relative">
+                            <select id="rsvp-event" required class="elegant-input appearance-none text-[15px]">
+                                <option value="" disabled selected>Tham dự nội dung nào? *</option>
+                                <option value="le-tot-nghiep">Tham dự lễ tốt nghiệp</option>
+                                <option value="chup-anh">Đến chụp ảnh cùng Trang</option>
+                                <option value="khong-the">Rất tiếc, mình không thể tham dự</option>
+                            </select>
+                            <span class="absolute right-2 top-1/2 -translate-y-1/2 text-accent pointer-events-none text-sm">⌄</span>
+                        </div>
+
+                        <div class="relative">
+                            <select id="rsvp-guests" class="elegant-input appearance-none text-[15px]">
+                                <option value="1">Đi 1 người</option>
+                                <option value="2">Đi 2 người</option>
+                                <option value="family">Đi cùng gia đình / nhóm bạn</option>
+                            </select>
+                            <span class="absolute right-2 top-1/2 -translate-y-1/2 text-accent pointer-events-none text-sm">⌄</span>
+                        </div>
+
+                        <button type="submit" class="bg-primary hover:bg-accent text-white font-sans text-[11px] uppercase tracking-widest font-semibold px-12 py-4 rounded-full transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-lg">
+                            Gửi phản hồi
+                        </button>
+                    </form>
+
+                    <div id="rsvp-success" class="hidden mt-8 text-accent text-[15px] font-serif italic">
+                        Cảm ơn bạn đã phản hồi. Hẹn gặp bạn trong ngày tốt nghiệp nhé!
+                    </div>
+                </div>
+
+                <!-- SỔ LƯU BÚT -->
+                <div class="guestbook-card rounded-[2rem] p-8 md:p-10">
+                    <h2 class="font-script text-4xl md:text-5xl text-accent mb-4">Sổ Lưu Bút</h2>
+                    <p class="font-sans text-[13px] text-gray-500 leading-relaxed mb-10">
+                        Gửi một lời chúc nhỏ để lưu lại kỷ niệm đẹp trong ngày đặc biệt này.
+                    </p>
+
+                    <form id="wish-form" class="text-left mb-10">
+                        <input type="text" id="wish-name" required placeholder="Tên của bạn *" class="elegant-input mb-6 text-[15px]">
+                        <textarea id="wish-text" required placeholder="Viết lời chúc yêu thương..." rows="2" class="elegant-input resize-none mb-8 text-[15px]"></textarea>
+                        <button type="submit" class="bg-white/70 hover:bg-accent text-accent hover:text-white border border-[rgba(166,138,92,0.28)] px-10 py-4 rounded-full font-sans text-[11px] tracking-widest uppercase font-semibold transition-all duration-300">
+                            Gửi lời chúc
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-sm text-gray-500 leading-relaxed">
+                        Lời chúc của bạn sẽ được gửi riêng đến Trang và không hiển thị công khai trên thiệp.
+                    </div>
+
+                    <div id="wish-success" class="hidden mt-5 text-accent text-[15px] font-serif italic">
+                        Cảm ơn bạn đã gửi lời chúc!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const progress = document.getElementById("scroll-progress");
+            const revealItems = document.querySelectorAll(".fade-in");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, {
+                threshold: 0.14,
+                rootMargin: "0px 0px -8% 0px"
+            });
+
+            revealItems.forEach((el) => observer.observe(el));
+
+            const updateProgress = () => {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+                progress.style.width = `${Math.min(scrolled, 100)}%`;
+            };
+
+            updateProgress();
+            window.addEventListener("scroll", updateProgress, { passive: true });
+            window.addEventListener("resize", updateProgress);
+        });
+
+        function openInvitation() {
+            const cover = document.getElementById('welcome-cover');
+            const card = document.getElementById('invitation-card');
+
+            card.style.transform = 'scale(1.03) translateY(-10px)';
+            card.style.opacity = '0.92';
+
+            setTimeout(() => {
+                card.classList.add('is-opening');
+            }, 280);
+
+            setTimeout(() => {
+                cover.classList.add('is-hidden');
+                document.body.classList.remove('overflow-hidden');
+            }, 650);
+
+            setTimeout(() => {
+                cover.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1600);
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvbe9iEMlvC8f7sn-ehLfn-UymBC8hWOY",
+            authDomain: "thiep-tot-nghiep-trang.firebaseapp.com",
+            projectId: "thiep-tot-nghiep-trang",
+            storageBucket: "thiep-tot-nghiep-trang.firebasestorage.app",
+            messagingSenderId: "640686341740",
+            appId: "1:640686341740:web:9210c95322d06675fae249"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        signInAnonymously(auth).catch((error) => {
+            console.error("Lỗi đăng nhập ẩn danh:", error);
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) return;
+
+            const rsvpForm = document.getElementById("rsvp-form");
+            if (rsvpForm) {
+                rsvpForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    const name = document.getElementById("rsvp-name").value.trim();
+                    const event = document.getElementById("rsvp-event").value;
+                    const guests = document.getElementById("rsvp-guests").value;
+
+                    if (!name || !event) {
+                        alert("Bạn vui lòng nhập tên và chọn nội dung tham dự.");
+                        return;
+                    }
+
+                    if (name.length > 50) {
+                        alert("Tên không được quá 50 ký tự.");
+                        return;
+                    }
+
+                    try {
+                        await addDoc(collection(db, "rsvps"), {
+                            name,
+                            event,
+                            guests,
+                            timestamp: new Date().toISOString()
+                        });
+
+                        rsvpForm.reset();
+
+                        const success = document.getElementById("rsvp-success");
+                        if (success) {
+                            success.classList.remove("hidden");
+                        }
+
+                        alert("Cảm ơn bạn đã phản hồi!");
+                    } catch (error) {
+                        console.error("Lỗi gửi phản hồi:", error);
+                        alert("Không gửi được phản hồi. Bạn vui lòng thử lại.");
+                    }
+                });
+            }
+
+            const wishForm = document.getElementById("wish-form");
+            if (wishForm) {
+                wishForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    const name = document.getElementById("wish-name").value.trim();
+                    const text = document.getElementById("wish-text").value.trim();
+
+                    if (!name || !text) {
+                        alert("Bạn vui lòng nhập tên và lời chúc.");
+                        return;
+                    }
+
+                    if (name.length > 50) {
+                        alert("Tên không được quá 50 ký tự.");
+                        return;
+                    }
+
+                    if (text.length > 500) {
+                        alert("Lời chúc không được quá 500 ký tự.");
+                        return;
+                    }
+
+                    try {
+                        await addDoc(collection(db, "wishes"), {
+                            name,
+                            text,
+                            timestamp: new Date().toISOString()
+                        });
+
+                        wishForm.reset();
+
+                        const success = document.getElementById("wish-success");
+                        if (success) {
+                            success.classList.remove("hidden");
+                        }
+
+                        alert("Cảm ơn bạn đã gửi lời chúc!");
+                    } catch (error) {
+                        console.error("Lỗi gửi lời chúc:", error);
+                        alert("Không gửi được lời chúc. Bạn vui lòng thử lại.");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
